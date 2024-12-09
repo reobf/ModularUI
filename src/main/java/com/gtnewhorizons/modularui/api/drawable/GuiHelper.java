@@ -1,5 +1,6 @@
 package com.gtnewhorizons.modularui.api.drawable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -455,7 +456,13 @@ public class GuiHelper {
         ModularGui modularGui = (ModularGui) currentScreen;
         ModularUIContext context = modularGui.getContext();
         // noinspection unchecked
-        List<String> tooltips = stack.getTooltip(context.getPlayer(), modularGui.mc.gameSettings.advancedItemTooltips);
+        List<String> tooltips = null;
+        try {
+            tooltips = stack.getTooltip(context.getPlayer(), modularGui.mc.gameSettings.advancedItemTooltips);
+        } catch (Throwable ignored) {
+            tooltips = new ArrayList<>(1);
+            tooltips.add("Error");
+        }
         for (int i = 0; i < tooltips.size(); i++) {
             if (i == 0) {
                 tooltips.set(0, stack.getRarity().rarityColor.toString() + tooltips.get(0));
